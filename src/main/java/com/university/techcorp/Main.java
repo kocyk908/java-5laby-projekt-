@@ -17,16 +17,18 @@ public class Main {
         company.hire(tomek);
 
         Project mobileApp = new Project("Mobile App", 40);
-        mobileApp.addEmployee(anna);
-        mobileApp.addEmployee(piotr);
-        mobileApp.addEmployee(ewa);
-
         Project website = new Project("Website", 45);
-        website.addEmployee(anna);
-        website.addEmployee(tomek);
+        // Project aiTool = new Project("", 60);
 
         company.startProject(mobileApp);
         company.startProject(website);
+
+        company.assignEmployee(mobileApp, anna);
+        company.assignEmployee(mobileApp, piotr);
+        company.assignEmployee(mobileApp, ewa);
+
+        company.assignEmployee(website, anna);
+        company.assignEmployee(website, tomek);
 
         System.out.println("INITIAL STATE:");
         company.showStatus();

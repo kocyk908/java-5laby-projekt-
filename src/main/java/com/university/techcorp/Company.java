@@ -34,6 +34,41 @@ public class Company {
         projects.add(project);
     }
 
+    /**
+     * Assigns an employee to a project within this company.
+     *
+     * PRECONDITIONS (must be true BEFORE calling this method):
+     * - project must not be null
+     * - employee must not be null
+     * - project must belong to this company (be in the projects list)
+     * - employee must work for this company (be in the employees list)
+     * - employee must NOT already be assigned to the project
+     * 
+     * POSTCONDITIONS (guaranteed to be true AFTER successful execution):
+     * - employee is added to the project's team
+     * - project's team size increases by 1
+     * - employee's assignment remains valid for the rest of program execution
+     * - no other state is modified
+     */
+    public void assignEmployee(Project project, Employee employee) {
+        if (project == null) {
+            throw new IllegalArgumentException("Project cannot be null.");
+        }
+        if (employee == null) {
+            throw new IllegalArgumentException("Employee cannot be null.");
+        }
+        if (!projects.contains(project)) {
+            throw new IllegalArgumentException("Project does not belong to this company.");
+        }
+        if (!employees.contains(employee)) {
+            throw new IllegalArgumentException("Employee does not work for this company.");
+        }
+        if (project.getTeam().contains(employee)) {
+            throw new IllegalArgumentException("Employee is already assigned to this project.");
+        }
+        project.addEmployee(employee);
+    }
+
     public void showStatus() {
         System.out.println("=== COMPANY STATUS ===");
         System.out.println("Name: " + name);

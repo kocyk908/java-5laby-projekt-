@@ -1,4 +1,4 @@
-package com.university.techcorp;
+package com.university.techcorp.domain;
 
 public class Intern extends Employee {
     public Intern(String name, int skill, double salary) {

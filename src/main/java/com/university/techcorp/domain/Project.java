@@ -1,8 +1,7 @@
-package com.university.techcorp;
+package com.university.techcorp.domain;
 
 import java.util.ArrayList;
 import java.util.List;
-import com.university.techcorp.domain.ProjectStatus;
 
 public class Project {
 
@@ -40,6 +39,10 @@ public class Project {
         if (status != ProjectStatus.FINISHED) {
             status = ProjectStatus.CANCELLED;
         }
+    }
+
+    public ProjectStatus getStatus() {
+        return status;
     }
 
     public void workOneTurn() {

@@ -1,4 +1,4 @@
-package com.university.techcorp;
+package com.university.techcorp.domain;
 
 public class Developer extends Employee {
 

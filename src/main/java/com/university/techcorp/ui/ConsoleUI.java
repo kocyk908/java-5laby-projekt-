@@ -1,7 +1,7 @@
-package com.example.techcorp.ui;
+package com.university.techcorp.ui;
 
-import com.example.techcorp.domain.Company;
-import com.example.techcorp.domain.Project;
+import com.university.techcorp.domain.Company;
+import com.university.techcorp.domain.Project;
 import java.util.Scanner;
 
 public class ConsoleUI {

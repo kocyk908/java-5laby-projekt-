@@ -1,9 +1,9 @@
-package com.example.techcorp.engine;
+package com.university.techcorp.engine;
 
-import com.example.techcorp.domain.Company;
-import com.example.techcorp.domain.Project;
-import com.example.techcorp.domain.ProjectStatus;
-import com.example.techcorp.ui.ConsoleUI;
+import com.university.techcorp.domain.Company;
+import com.university.techcorp.domain.Project;
+import com.university.techcorp.domain.ProjectStatus;
+import com.university.techcorp.ui.ConsoleUI;
 
 public class GameEngine {
 

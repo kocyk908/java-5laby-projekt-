@@ -1,4 +1,4 @@
-package com.university.techcorp;
+package com.university.techcorp.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,7 @@ public class Company {
             throw new IllegalArgumentException("Project cannot be null.");
         }
         projects.add(project);
+        project.start();
     }
 
     /**
@@ -67,6 +68,33 @@ public class Company {
             throw new IllegalArgumentException("Employee is already assigned to this project.");
         }
         project.addEmployee(employee);
+    }
+
+    public void reduceCash(double amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Kwota do odjęcia nie może być ujemna.");
+        }
+        
+        if (this.cash - amount < 0) {
+            // Dodajemy this.name do wiadomości!
+            throw new IllegalStateException("Firma " + this.name + " zbankrutowała! Brak środków na wypłaty.");
+        }
+        
+        this.cash -= amount;
+    }
+
+    public void paySalaries() {
+        double totalSalaries = 0;
+        
+        // Sumujemy pensje wszystkich zatrudnionych pracowników
+        for (Employee employee : employees) {
+            totalSalaries += employee.getSalary();
+        }
+        
+        // Odejmujemy sumę od budżetu firmy (używając metody, którą dodaliśmy wcześniej)
+        reduceCash(totalSalaries);
+        
+        System.out.println("Wypłacono pensje w łącznej kwocie: " + totalSalaries + " PLN.");
     }
 
     public void showStatus() {

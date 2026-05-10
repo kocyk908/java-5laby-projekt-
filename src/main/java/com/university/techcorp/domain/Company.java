@@ -27,12 +27,11 @@ public class Company {
         employees.add(employee);
     }
 
-    public void startProject(Project project) {
+    public void addProject(Project project) {
         if (project == null) {
             throw new IllegalArgumentException("Project cannot be null.");
         }
         projects.add(project);
-        project.start();
     }
 
     /**

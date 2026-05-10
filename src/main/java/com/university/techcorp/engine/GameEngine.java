@@ -54,18 +54,41 @@ public class GameEngine {
     }
 
     private void workOnProjects() {
+        boolean workPerformed = false;
+
         for (Project project : company.getProjects()) {
-            project.workOneTurn();
+            if (project.getStatus() == ProjectStatus.IN_PROGRESS) {
+                project.workOneTurn();
+                ui.showMessage("Wykonano pracę nad projektem: " + project.getName());
+                workPerformed = true;
+            } else if (project.getStatus() == ProjectStatus.PLANNED) {
+                ui.showMessage("Projekt " + project.getName() + " nie jest w trakcie realizacji.");
+            }
         }
-        ui.showMessage("Wykonano pracę nad projektami w tej turze.");
+
+        // Jeśli jakikolwiek projekt był w trakcie realizacji, zespół pobiera pensję
+        if (workPerformed) {
+            try {
+                company.paySalaries();
+                ui.showMessage("Pobrano pensje za wykonaną pracę.");
+            } catch (IllegalStateException e) {
+                ui.showMessage("Nie można zapłacić pensji! Firma zbankrutowała. KONIEC GRY.");
+                running = false;
+            }
+        } else {
+            ui.showMessage("Brak aktywnych projektów. Zespół nie podjął pracy, budżet bez zmian.");
+        }
     }
 
     private void advanceTurn() {
+
+        // 2. Sprawdzanie warunku wygranej
         if (allProjectsFinished()) {
-            ui.showMessage("Wszystkie projekty zostały zakończone. Gra skończona!");
+            ui.showMessage("\n>>> GRATULACJE! WYGRANA! <<<");
+            ui.showMessage("Wszystkie projekty zostały zakończone.");
             running = false;
         } else {
-            turn++;
+            turn++; // Przechodzimy do następnej tury
         }
     }
 

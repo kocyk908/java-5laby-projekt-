@@ -2,6 +2,7 @@ package com.university.techcorp;
 
 import java.util.ArrayList;
 import java.util.List;
+import com.university.techcorp.domain.ProjectStatus;
 
 public class Project {
 
@@ -9,6 +10,7 @@ public class Project {
     private int requiredWork;
     private int progress;
     private List<Employee> team;
+    private ProjectStatus status;
 
     public Project(String name, int requiredWork) {
         validateName(name);
@@ -18,6 +20,7 @@ public class Project {
         this.requiredWork = requiredWork;
         this.progress = 0;
         this.team = new ArrayList<>();
+        this.status = ProjectStatus.PLANNED;
     }
 
     public void addEmployee(Employee employee) {
@@ -27,18 +30,34 @@ public class Project {
         team.add(employee);
     }
 
+    public void start() {
+        if (status == ProjectStatus.PLANNED) {
+            status = ProjectStatus.IN_PROGRESS;
+        }
+    }
+
+    public void cancel() {
+        if (status != ProjectStatus.FINISHED) {
+            status = ProjectStatus.CANCELLED;
+        }
+    }
+
     public void workOneTurn() {
+        if (status != ProjectStatus.IN_PROGRESS) {
+            return;
+        }
         for (Employee employee : team) {
             progress += employee.work();
         }
 
-        if (progress > requiredWork) {
+        if (progress >= requiredWork) {
             progress = requiredWork;
+            status = ProjectStatus.FINISHED;
         }
     }
 
     public boolean isFinished() {
-        return progress >= requiredWork;
+        return status == ProjectStatus.FINISHED;
     }
 
     public int getCompletionPercentage() {

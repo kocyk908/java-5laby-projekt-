@@ -82,6 +82,14 @@ public class Company {
         this.cash -= amount;
     }
 
+    public void addCash(double amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Kwota do dodania nie może być ujemna.");
+        }
+        this.cash += amount;
+    }
+
+
     public void paySalaries() {
         double totalSalaries = 0;
         

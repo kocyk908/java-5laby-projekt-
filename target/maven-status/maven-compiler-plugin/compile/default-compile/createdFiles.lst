@@ -4,10 +4,13 @@ com/university/techcorp/events/MarketSlowdownEvent.class
 com/university/techcorp/Main.class
 com/university/techcorp/domain/Intern.class
 com/university/techcorp/domain/Project.class
+com/university/techcorp/events/UnexpectedBugEvent.class
 com/university/techcorp/engine/GameEngine.class
 com/university/techcorp/ui/ConsoleUI.class
+com/university/techcorp/events/InvestorFundingEvent.class
 com/university/techcorp/domain/Employee.class
 com/university/techcorp/events/GameEvent.class
 com/university/techcorp/domain/ProjectStatus.class
 com/university/techcorp/domain/Developer.class
 com/university/techcorp/domain/Company.class
+com/university/techcorp/events/RandomEventManager.class

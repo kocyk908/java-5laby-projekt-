@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) {
         // 1. Inicjalizacja firmy
-        Company company = new Company("TechCorp", 50_000);
+        Company company = new Company("TechCorp", 200_000);
 
         // 2. Tworzenie pracowników (przypisujemy ich do zmiennych!)
         Employee anna = new Developer("Anna", 9, 8_000);
@@ -23,8 +23,8 @@ public class Main {
         company.hire(tomek); // Możesz odblokować swojego stażystę!
 
         // 4. Utworzenie projektów
-        Project mobileApp = new Project("Mobile App", 30);
-        Project website = new Project("Website", 20);
+        Project mobileApp = new Project("Mobile App", 120);
+        Project website = new Project("Website", 80);
 
         // 5. Dodanie/wystartowanie projektów w firmie
         company.addProject(mobileApp);

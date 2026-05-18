@@ -59,6 +59,18 @@ public class Project {
         }
     }
 
+    public void reduceProgress(int amount) {
+        if (amount < 0) {
+            throw new IllegalArgumentException("Wartość redukcji nie może być ujemna.");
+        }
+        
+        this.progress -= amount;
+        
+        if (this.progress < 0) {
+            this.progress = 0;
+        }
+    }
+
     public boolean isFinished() {
         return status == ProjectStatus.FINISHED;
     }

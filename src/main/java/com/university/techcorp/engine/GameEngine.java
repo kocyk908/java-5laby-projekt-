@@ -10,6 +10,7 @@ import com.university.techcorp.events.RandomEventManager;
 import java.util.List;
 import java.util.ArrayList;
 
+
 public class GameEngine {
 
     private final Company company;
@@ -59,21 +60,27 @@ public class GameEngine {
 
     private void workOnProjects() {
         boolean workPerformed = false;
+        
+        List<Project> activeProjects = new ArrayList<>();
         for (Project project : company.getProjects()) {
             if (project.getStatus() == ProjectStatus.IN_PROGRESS) {
-
-                project.workOneTurn();
-                ui.showMessage("Wykonano pracę nad projektem: " + project.getName());
-                workPerformed = true;
+                activeProjects.add(project);
             } else if (project.getStatus() == ProjectStatus.PLANNED) {
                 ui.showMessage("Projekt " + project.getName() + " nie jest w trakcie realizacji.");       
             }
         }
-        // Jeśli jakikolwiek projekt był w trakcie realizacji, zespół pobiera pensję
-        if (workPerformed) {
+
+        // Jeśli są aktywne projekty, najpierw płacimy, potem pracujemy
+        if (!activeProjects.isEmpty()) {
+            workPerformed = true;
             try {
                 company.paySalaries();
                 ui.showMessage("Pobrano pensje za wykonaną pracę.");
+                
+                for (Project project : activeProjects) {
+                    project.workOneTurn();
+                    ui.showMessage("Wykonano pracę nad projektem: " + project.getName());
+                }
             } catch (IllegalStateException e) {
                 ui.showMessage("Nie można zapłacić pensji! Firma zbankrutowała. KONIEC GRY.");
                 running = false;
@@ -90,7 +97,7 @@ public class GameEngine {
     private void freezeProject() {
         List<Project> freezable = new ArrayList<>();
         
-        // ZMIANA: Szukamy tylko rozpoczętych projektów
+        // Szukamy tylko rozpoczętych projektów
         for (Project p : company.getProjects()) {
             if (p.getStatus() == ProjectStatus.IN_PROGRESS || p.getStatus() == ProjectStatus.FROZEN) {
                 freezable.add(p);
@@ -120,8 +127,7 @@ public class GameEngine {
                 ui.showMessage("Pomyślnie zamrożono projekt: " + selectedProject.getName());
             } else if (selectedProject.getStatus() == ProjectStatus.FROZEN) {
                 selectedProject.resume();
-                ui.showMessage("Pomyślnie odmrożono projekt: " + selectedProject.getName() + 
-                               " (Status: PLANNED. Użyj opcji 2, aby go znowu uruchomić!).");
+                ui.showMessage("Pomyślnie odmrożono projekt: " + selectedProject.getName());
             }
         } else if (choice != 0) {
             ui.showMessage("Nieprawidłowy wybór.");
@@ -130,7 +136,7 @@ public class GameEngine {
 
     private void advanceTurn() {
         eventManager.triggerRandomEvent(company);
-        // 2. Sprawdzanie warunku wygranej
+        // Sprawdzanie warunku wygranej
         if (allProjectsFinished()) {
             ui.showMessage("\n>>> GRATULACJE! WYGRANA! <<<");
             ui.showMessage("Wszystkie projekty zostały zakończone.");
@@ -148,16 +154,14 @@ public class GameEngine {
         boolean anyFinished = false;
         
         for (Project project : company.getProjects()) {
-            // Dopóki coś jest do zrobienia (IN_PROGRESS lub PLANNED), gra trwa dalej
-            if (project.getStatus() == ProjectStatus.PLANNED || project.getStatus() == ProjectStatus.IN_PROGRESS) {
+            if (project.getStatus() == ProjectStatus.PLANNED || project.getStatus() == ProjectStatus.IN_PROGRESS || project.getStatus() == ProjectStatus.FROZEN) {
                 return false; 
             }
-            // Zapisujemy, że udało się pozytywnie zakończyć chociaż jeden projekt
             if (project.getStatus() == ProjectStatus.FINISHED) {
                 anyFinished = true;
             }
         }
-        // Wygrywasz tylko, jeśli nie ma już aktywnych projektów, i chociaż jeden udało się ukończyć (a nie wszystkie anulować)
+        // Wygrywasz tylko, jeśli nie ma już aktywnych projektów, i wszystkie udało się ukończyć (a nie wszystkie anulować)
         return anyFinished;
     }
 }

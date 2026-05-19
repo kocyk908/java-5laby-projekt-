@@ -7,7 +7,7 @@ public class Manager extends Employee {
 
     @Override
     public int work() {
-        return getSkill() / 3;
+        return Math.max(1, getSkill() / 3);
     }
 
     @Override

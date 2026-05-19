@@ -8,7 +8,7 @@ public class Tester extends Employee {
 
     @Override
     public int work() {
-        return getSkill() / 2;
+        return Math.max(1, getSkill() / 2);
     }
 
     @Override

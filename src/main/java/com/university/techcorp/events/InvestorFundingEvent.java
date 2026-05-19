@@ -6,10 +6,8 @@ public class InvestorFundingEvent implements GameEvent {
 
     public void apply(Company company) {
         double fundingAmount = 20000.0;
-        company.addCash(fundingAmount);
-
         System.out.println("\n[!] ZDARZENIE LOSOWE [!]");
-        System.out.println("Pojawił się inwestor! Firma " + company.getName() + 
-                           " otrzymuje dofinansowanie w wysokości " + fundingAmount + " PLN.");
+        System.out.println("Pojawił się inwestor! Firma " + company.getName() + " otrzymuje dofinansowanie w wysokości " + fundingAmount + " PLN.");
+        company.addCash(fundingAmount);
     }
 }

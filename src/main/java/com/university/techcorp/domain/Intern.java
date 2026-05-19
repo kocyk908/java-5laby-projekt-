@@ -7,7 +7,7 @@ public class Intern extends Employee {
 
     @Override
     public int work() {
-        return getSkill() / 4;
+        return Math.max(1, getSkill() / 4);
     }
 
 

@@ -77,7 +77,6 @@ public class Company {
         }
         
         if (this.cash - amount < 0) {
-            // Dodajemy this.name do wiadomości!
             throw new IllegalStateException("Firma " + this.name + " zbankrutowała! Brak środków na wypłaty.");
         }
         
@@ -106,7 +105,7 @@ public class Company {
             }
         }
         
-        // Odejmujemy sumę od budżetu firmy (używając metody, którą dodaliśmy wcześniej)
+        // Odejmujemy sumę od budżetu firmy
         reduceCash(totalSalaries);
         
         System.out.println("Wypłacono pensje w łącznej kwocie: " + totalSalaries + " PLN.");

@@ -35,9 +35,16 @@ public class Project {
         }
     }
 
-    public void cancel() {
-        if (status != ProjectStatus.FINISHED) {
-            status = ProjectStatus.CANCELLED;
+    public void freeze() {
+        if (this.status != ProjectStatus.IN_PROGRESS) {
+            throw new IllegalStateException("Można zamrozić tylko projekt, który jest już w trakcie realizacji (IN_PROGRESS).");
+        }
+        this.status = ProjectStatus.FROZEN;
+    }
+
+    public void resume() {
+        if (status == ProjectStatus.FROZEN) {
+            status = ProjectStatus.IN_PROGRESS;
         }
     }
 

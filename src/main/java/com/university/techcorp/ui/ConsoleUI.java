@@ -19,7 +19,8 @@ public class ConsoleUI {
         System.out.println("1. Status firmy");
         System.out.println("2. Rozpocznij zaplanowane projekty");
         System.out.println("3. Pracuj nad projektami");
-        System.out.println("4. Wyjdź z gry");
+        System.out.println("4. Zamroź/Odmróź projekt");
+        System.out.println("5. Wyjdź z gry");
     }
 
     public int readMenuChoice() {

@@ -7,6 +7,9 @@ import com.university.techcorp.ui.ConsoleUI;
 
 import com.university.techcorp.events.RandomEventManager;
 
+import java.util.List;
+import java.util.ArrayList;
+
 public class GameEngine {
 
     private final Company company;
@@ -31,10 +34,6 @@ public class GameEngine {
             
             int choice = ui.readMenuChoice();
             handleChoice(choice);
-
-            // if (running) {
-            //     advanceTurn();
-            // }
         }
     }
 
@@ -43,7 +42,8 @@ public class GameEngine {
             case 1 -> ui.showCompanyStatus(company);
             case 2 -> startPlannedProjects();
             case 3 -> workOnProjects();
-            case 4 -> running = false;
+            case 4 -> freezeProject();     
+            case 5 -> running = false;
             default -> ui.showMessage("Nieprawidłowa opcja menu.");
         }
     }
@@ -59,9 +59,6 @@ public class GameEngine {
 
     private void workOnProjects() {
         boolean workPerformed = false;
-
-
-
         for (Project project : company.getProjects()) {
             if (project.getStatus() == ProjectStatus.IN_PROGRESS) {
 
@@ -69,11 +66,9 @@ public class GameEngine {
                 ui.showMessage("Wykonano pracę nad projektem: " + project.getName());
                 workPerformed = true;
             } else if (project.getStatus() == ProjectStatus.PLANNED) {
-                ui.showMessage("Projekt " + project.getName() + " nie jest w trakcie realizacji.");
-                
+                ui.showMessage("Projekt " + project.getName() + " nie jest w trakcie realizacji.");       
             }
         }
-
         // Jeśli jakikolwiek projekt był w trakcie realizacji, zespół pobiera pensję
         if (workPerformed) {
             try {
@@ -89,6 +84,47 @@ public class GameEngine {
 
         if (running && workPerformed) {
             advanceTurn();
+        }
+    }
+
+    private void freezeProject() {
+        List<Project> freezable = new ArrayList<>();
+        
+        // ZMIANA: Szukamy tylko rozpoczętych projektów
+        for (Project p : company.getProjects()) {
+            if (p.getStatus() == ProjectStatus.IN_PROGRESS || p.getStatus() == ProjectStatus.FROZEN) {
+                freezable.add(p);
+            }
+        }
+
+        if (freezable.isEmpty()) {
+            ui.showMessage("Brak rozpoczętych projektów, które można by zamrozić bądź odmrozić.");
+            return;
+        }
+
+        ui.showMessage("\nWybierz projekt do zamrożenia/odmrożenia:");
+        for (int i = 0; i < freezable.size(); i++) {
+            Project p = freezable.get(i);
+            String actionText = (p.getStatus() == ProjectStatus.IN_PROGRESS) ? "[ZAMRÓŹ]" : "[ODMRÓŹ]";
+            ui.showMessage((i + 1) + ". " + p.getName() + " | Status: " + p.getStatus() + " " + actionText);
+        }
+        ui.showMessage("0. Powrót");
+
+        int choice = ui.readMenuChoice();
+
+        if (choice > 0 && choice <= freezable.size()) {
+            Project selectedProject = freezable.get(choice - 1);
+            
+            if (selectedProject.getStatus() == ProjectStatus.IN_PROGRESS) {
+                selectedProject.freeze();
+                ui.showMessage("Pomyślnie zamrożono projekt: " + selectedProject.getName());
+            } else if (selectedProject.getStatus() == ProjectStatus.FROZEN) {
+                selectedProject.resume();
+                ui.showMessage("Pomyślnie odmrożono projekt: " + selectedProject.getName() + 
+                               " (Status: PLANNED. Użyj opcji 2, aby go znowu uruchomić!).");
+            }
+        } else if (choice != 0) {
+            ui.showMessage("Nieprawidłowy wybór.");
         }
     }
 
@@ -108,11 +144,20 @@ public class GameEngine {
         if (company.getProjects().isEmpty()) {
             return false;
         }
+        
+        boolean anyFinished = false;
+        
         for (Project project : company.getProjects()) {
-            if (!project.isFinished()) {
-                return false;
+            // Dopóki coś jest do zrobienia (IN_PROGRESS lub PLANNED), gra trwa dalej
+            if (project.getStatus() == ProjectStatus.PLANNED || project.getStatus() == ProjectStatus.IN_PROGRESS) {
+                return false; 
+            }
+            // Zapisujemy, że udało się pozytywnie zakończyć chociaż jeden projekt
+            if (project.getStatus() == ProjectStatus.FINISHED) {
+                anyFinished = true;
             }
         }
-        return true;
+        // Wygrywasz tylko, jeśli nie ma już aktywnych projektów, i chociaż jeden udało się ukończyć (a nie wszystkie anulować)
+        return anyFinished;
     }
 }

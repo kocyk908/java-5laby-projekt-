@@ -6,12 +6,20 @@ import java.util.Scanner;
 
 public class ConsoleUI {
 
+    // KODY KOLORÓW ANSI
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BOLD = "\u001B[1m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_RED = "\u001B[31m";
+
     private final Scanner scanner = new Scanner(System.in);
 
     public void showTurnHeader(int turn) {
-        System.out.println("\n========================");
-        System.out.println("       TURA " + turn);
-        System.out.println("========================");
+        System.out.println(ANSI_CYAN + "\n========================" + ANSI_RESET);
+        System.out.println(ANSI_BOLD + ANSI_RED + "       TURA " + turn + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "========================" + ANSI_RESET);
     }
 
     public void showMainMenu() {
@@ -35,9 +43,9 @@ public class ConsoleUI {
     }
 
     public void showCompanyStatus(Company company) {
-        System.out.println("\n--- STATUS FIRMY ---");
+        System.out.println(ANSI_GREEN + "\n--- STATUS FIRMY ---" + ANSI_RESET);
         System.out.println("Nazwa: " + company.getName());
-        System.out.println("Budżet: " + company.getCash() + " PLN");
+        System.out.println("Budżet: " + ANSI_YELLOW + company.getCash() + " PLN" + ANSI_RESET);
         System.out.println("Projekty:");
         
         if (company.getProjects().isEmpty()) {
@@ -51,7 +59,7 @@ public class ConsoleUI {
                         project.getRequiredWork());
             }
         }
-        System.out.println("--------------------");
+        System.out.println(ANSI_GREEN + "--------------------" + ANSI_RESET);
     }
 
     public void showMessage(String message) {

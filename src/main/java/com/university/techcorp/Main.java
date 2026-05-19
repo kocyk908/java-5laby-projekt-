@@ -8,23 +8,25 @@ public class Main {
 
     public static void main(String[] args) {
         // 1. Inicjalizacja firmy
-        Company company = new Company("TechCorp", 200_000);
+        Company company = new Company("TechCorp", 350_000);
 
         // 2. Tworzenie pracowników (przypisujemy ich do zmiennych!)
         Employee anna = new Developer("Anna", 9, 8_000);
+        Employee jan = new Developer("Jan", 10, 6_000);
         Employee piotr = new Tester("Piotr", 6, 6_500);
         Employee ewa = new Manager("Ewa", 7, 9_000);
         Employee tomek = new Intern("Tomek", 4, 3_000);
         
         // 3. Zatrudnienie pracowników
         company.hire(anna);
+        company.hire(jan);
         company.hire(piotr);
         company.hire(ewa);
         company.hire(tomek); // Możesz odblokować swojego stażystę!
 
         // 4. Utworzenie projektów
         Project mobileApp = new Project("Mobile App", 120);
-        Project website = new Project("Website", 80);
+        Project website = new Project("Website", 40);
 
         // 5. Dodanie/wystartowanie projektów w firmie
         company.addProject(mobileApp);
@@ -35,7 +37,7 @@ public class Main {
         company.assignEmployee(mobileApp, piotr);
         company.assignEmployee(mobileApp, ewa);
 
-        company.assignEmployee(website, anna);
+        company.assignEmployee(website, jan);
         company.assignEmployee(website, tomek);
 
 

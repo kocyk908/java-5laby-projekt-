@@ -61,8 +61,10 @@ public class GameEngine {
         boolean workPerformed = false;
 
 
+
         for (Project project : company.getProjects()) {
             if (project.getStatus() == ProjectStatus.IN_PROGRESS) {
+
                 project.workOneTurn();
                 ui.showMessage("Wykonano pracę nad projektem: " + project.getName());
                 workPerformed = true;

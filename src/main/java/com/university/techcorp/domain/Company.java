@@ -63,8 +63,10 @@ public class Company {
         if (!employees.contains(employee)) {
             throw new IllegalArgumentException("Employee does not work for this company.");
         }
-        if (project.getTeam().contains(employee)) {
-            throw new IllegalArgumentException("Employee is already assigned to this project.");
+        for (Project p : projects) {
+            if (p.getTeam().contains(employee)) {
+                throw new IllegalStateException("Pracownik " + employee.getName() + " jest już zajęty pracą w projekcie " + p.getName() + "!");
+            }
         }
         project.addEmployee(employee);
     }
@@ -93,9 +95,15 @@ public class Company {
     public void paySalaries() {
         double totalSalaries = 0;
         
-        // Sumujemy pensje wszystkich zatrudnionych pracowników
-        for (Employee employee : employees) {
-            totalSalaries += employee.getSalary();
+        for (Project project : projects) {
+            // Płacimy tylko zespołom z aktywnych projektów
+            if (project.getStatus() == ProjectStatus.IN_PROGRESS) {
+                
+                for (Employee emp : project.getTeam()) {
+                    totalSalaries += emp.getSalary();
+                }
+                
+            }
         }
         
         // Odejmujemy sumę od budżetu firmy (używając metody, którą dodaliśmy wcześniej)

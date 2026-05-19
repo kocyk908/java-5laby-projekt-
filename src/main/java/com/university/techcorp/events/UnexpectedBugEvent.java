@@ -40,11 +40,5 @@ public class UnexpectedBugEvent implements GameEvent {
                 anyProjectAffected = true;
             }
         }
-
-        if (!anyProjectAffected) {
-            System.out.println("- Na szczęście żaden z projektów nie jest obecnie realizowany. Uff!\n");
-        } else {
-            System.out.println(); // Pusta linia
-        }
     }
 }
